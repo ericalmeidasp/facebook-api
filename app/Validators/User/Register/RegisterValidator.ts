@@ -8,7 +8,7 @@ export default class RegisterValidator {
       rules.email(),
       rules.unique({ table: 'users', column: 'email' })
     ]),
-    password: schema.string({ trim: true })
+    redirectUrl: schema.string({ trim: true })
   })
   public messages = {}
 }
