@@ -16,7 +16,7 @@ export default class UserRegisterController {
     const link = `${redirectUrl.replace(/\/$/, '')}/${key}`
   }
 
-  public async show({}: HttpContextContract) {}
+  public async show({ }: HttpContextContract) { }
 
-  public async update({}: HttpContextContract) {}
+  public async update({ }: HttpContextContract) { }
 }
