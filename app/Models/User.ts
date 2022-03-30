@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
-import { UserKey } from 'app/Models'
+import { UserKey } from 'App/Models'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
