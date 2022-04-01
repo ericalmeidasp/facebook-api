@@ -1,11 +1,15 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { User, UserKey } from 'App/Models'
-import { RegisterValidator, UpdateValidator } from 'App/Validators/User/Register'
+import { RegisterValidator, UpdateValidator, ForgotValidator } from 'App/Validators/User/Register'
 import Database from '@ioc:Adonis/Lucid/Database'
 import faker from 'faker'
 import Mail from '@ioc:Adonis/Addons/Mail'
 
-export default class UserRegisterController {
+export default class ForgorPasswordController {
+  public async index({ request }: HttpContextContract) {
+    const email = await request.validate(ForgotValidator)
+  }
+
   public async store({ request }: HttpContextContract) {
     await Database.transaction(async (trx) => {
       const { email, redirectUrl } = await request.validate(RegisterValidator)
