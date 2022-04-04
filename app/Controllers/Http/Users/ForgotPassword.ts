@@ -29,7 +29,7 @@ export default class ForgotPasswordController {
       message.to(email)
       message.from('contato@fb.com', 'FacebookTest')
       message.subject('Recuperação de Conta')
-      message.htmlView('emails/forgot', { link })
+      message.htmlView('emails/forgot-password', { link })
     })
 
     return
@@ -37,9 +37,10 @@ export default class ForgotPasswordController {
 
   public async show({ params }: HttpContextContract) {
     const userKey = await UserKey.findByOrFail('key', params.key)
-    const user = await userKey.related('user').query().firstOrFail()
 
-    return user
+    await userKey.load('user')
+
+    return userKey.user
   }
 
   public async update({ request, response }: HttpContextContract) {
