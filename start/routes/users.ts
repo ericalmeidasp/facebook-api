@@ -1,6 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-// registrar
+// registrar user
 
 Route.post('/users/register', 'Users/Register.store')
 Route.get('/users/register/:key', 'Users/Register.show')
