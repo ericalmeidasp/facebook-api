@@ -54,6 +54,6 @@ export default class ForgotPasswordController {
 
     await userKey.delete()
 
-    return response.ok({ message: 'OK' })
+    return response.ok({ message: 'Senha Alterada' })
   }
 }
