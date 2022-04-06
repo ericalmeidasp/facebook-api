@@ -16,3 +16,8 @@ Route.put('/users/forgot', 'Users/ForgotPassword.update')
 
 Route.get('/users', 'Users/Main.show').middleware('auth')
 Route.put('/users', 'Users/Main.update').middleware('auth')
+
+//avatar - inserir e remover
+
+Route.put('/users/avatar', 'Users/Avatar.update').middleware('auth')
+Route.delete('/users/avatar', 'Users/Avatar.destroy').middleware('auth')
