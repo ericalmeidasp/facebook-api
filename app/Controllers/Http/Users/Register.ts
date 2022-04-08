@@ -47,8 +47,12 @@ export default class UserRegisterController {
     const userKey = await UserKey.findByOrFail('key', key)
     const user = await userKey.related('user').query().firstOrFail()
 
-    const username = name.split(' ')[0].toLocaleLowerCase() + new Date().getTime()
-    username.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    const username =
+      name
+        .split(' ')[0]
+        .toLocaleLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '') + new Date().getTime()
 
     user.merge({ name, password, username })
 

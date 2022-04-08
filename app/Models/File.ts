@@ -1,17 +1,22 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, computed } from '@ioc:Adonis/Lucid/Orm'
 import { FileCategory } from 'App/Utils'
+import Env from '@ioc:Adonis/Core/Env'
 
 export default class File extends BaseModel {
-  @column({ isPrimary: true })
+  @column({ isPrimary: true, serializeAs: null })
   public id: number
 
-  @column()
+  @column({ serializeAs: null })
   public ownerId: number
-  
-  @column()
+
+  @column({ serializeAs: null })
   public fileCategory: FileCategory
 
-  @column()
+  @column({ serializeAs: null })
   public fileName: string
 
+  @computed()
+  public get url(): string {
+    return `${Env.get('APP_URL')}/uploads/${this.fileName}`
+  }
 }
