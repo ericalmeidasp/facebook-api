@@ -9,7 +9,7 @@ import {
   hasOne,
   HasOne
 } from '@ioc:Adonis/Lucid/Orm'
-import { UserKey, File } from 'App/Models'
+import { UserKey, File, Post } from 'App/Models'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -45,6 +45,9 @@ export default class User extends BaseModel {
 
   @hasMany(() => UserKey)
   public keys: HasMany<typeof UserKey>
+
+  @hasMany(() => Post)
+  public posts: HasMany<typeof Post>
 
   @hasOne(() => File, {
     foreignKey: 'ownerId',
