@@ -8,3 +8,5 @@ Route.resource('/posts', 'Posts/Main').apiOnly().except(['show']).middleware({
     update: ['auth'],
     destroy: ['auth']
 })
+
+Route.post('/posts/:id/media', 'Posts/Media.store').middleware('auth')
