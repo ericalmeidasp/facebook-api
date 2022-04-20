@@ -9,7 +9,7 @@ export default class Post extends BaseModel {
   @column()
   public description: string
 
-  @column()
+  @column({ serializeAs: null })
   public userId: number
 
   @column.dateTime({ autoCreate: true })
