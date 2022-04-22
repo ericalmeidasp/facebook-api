@@ -10,7 +10,7 @@ import {
   HasMany,
   computed
 } from '@ioc:Adonis/Lucid/Orm'
-import { User, File, Comment } from 'App/Models'
+import { User, File, Comment, Reaction } from 'App/Models'
 
 export default class Post extends BaseModel {
   @column({ isPrimary: true })
@@ -33,6 +33,9 @@ export default class Post extends BaseModel {
 
   @hasMany(() => Comment)
   public comments: HasMany<typeof Comment>
+
+  @hasMany(() => Reaction, {serializeAs: null})
+  public reactions: HasMany<typeof Reaction>
 
   @hasOne(() => File, {
     foreignKey: 'ownerId',
