@@ -34,7 +34,7 @@ export default class Post extends BaseModel {
   @hasMany(() => Comment)
   public comments: HasMany<typeof Comment>
 
-  @hasMany(() => Reaction, {serializeAs: null})
+  @hasMany(() => Reaction, { serializeAs: null })
   public reactions: HasMany<typeof Reaction>
 
   @hasOne(() => File, {
@@ -46,5 +46,21 @@ export default class Post extends BaseModel {
   @computed()
   public get commentsCount() {
     return this.$extras.comments_count
+  }
+
+  @computed()
+  public get activeReaction() {
+    return this.reactions && this.reactions.length ?  this.reactions[0].type : null
+  }
+
+  @computed()
+  public get reactionsCount() {
+    return {
+      like: this.$extras.likeCount || 0,
+      love: this.$extras.loveCount || 0,
+      haha: this.$extras.hahaCount || 0,
+      sad: this.$extras.sadCount || 0,
+      angry: this.$extras.angryCount || 0
+    }
   }
 }

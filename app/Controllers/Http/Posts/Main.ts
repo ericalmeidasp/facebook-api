@@ -20,6 +20,10 @@ export default class PostsController {
         })
       })
 
+      query.preload('reactions', () => {
+        query.where('userId', auth.user!.id).first()
+      })
+
       query.withCount('comments')
 
       query.preload('media')
@@ -28,6 +32,39 @@ export default class PostsController {
         query.select(['id', 'name', 'username'])
         query.preload('avatar')
       })
+
+      // counets reactions
+      // likeCount
+      query.withCount('reactions', (query) => {
+        query.where('type', 'like')
+        query.as('likeCount')
+      })
+
+      // hahaCount
+      query.withCount('reactions', (query) => {
+        query.where('type', 'haha')
+        query.as('hahaCount')
+      })
+
+      // sadCount
+      query.withCount('reactions', (query) => {
+        query.where('type', 'sad')
+        query.as('sadCount')
+      })
+
+      // loveCount
+      query.withCount('reactions', (query) => {
+        query.where('type', 'love')
+        query.as('loveCount')
+      })
+
+      // angryCount
+      query.withCount('reactions', (query) => {
+        query.where('type', 'angry')
+        query.as('angryCount')
+      })
+
+      
     })
 
     return user.posts
