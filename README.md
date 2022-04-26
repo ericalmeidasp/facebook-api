@@ -1,11 +1,10 @@
 # facebook-api - Backend
-Api do Clone do Facebook
-com funçóes de ->
-registros (com envio de email e confirmação)
-usuarios (com avatares)
-postagens (com midias)
-comentários
-reações nos posts
+$ Api do Clone do Facebook com funçóes de -> 
+$ registros (com envio de email e confirmação)
+$ usuarios (com avatares)
+$ postagens (com midias)
+$ comentários
+$ reações nos posts
 
 
 # backend
