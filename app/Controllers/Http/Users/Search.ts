@@ -1,31 +1,22 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { User } from 'App/Models'
-import Database from '@ioc:Adonis/Lucid/Database'
-// import Mail from '@ioc:Adonis/Addons/Mail'
 
 export default class SearchController {
-  public async index({ request }: HttpContextContract) {
-    let keyword = request.qs().keyword.replace(' ', '%')
-    
+  public async index({ request, response }: HttpContextContract) {
+    const { keyword } = request.qs()
 
-    const search: any = await Database.from('users')
-      .select('id')
-      .where('name', 'like', `%${keyword}%`)
+    if (!keyword) {
+      return response.status(422).send({
+        error: { message: 'missing user parameter' }
+      })
+    }
+
+    const users = await User.query()
+      .where('email', 'like', `%${keyword}%`)
+      .orWhere('name', 'like', `%${keyword}%`)
       .orWhere('username', 'like', `%${keyword}%`)
-      .orWhere('email', 'like', `%${keyword}%`)
-      .paginate(1, 10)
+      .preload('avatar')
 
-    const users = await User.findMany(search.rows.map(item => [item.id]))
-  
     return users
-  }
-
-  public async show({ params }: HttpContextContract) {
-    let username = params.username
-    
-    const user = await User.findByOrFail('username', username)
-    await user.load('avatar')
-  
-    return user
   }
 }

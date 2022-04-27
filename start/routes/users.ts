@@ -25,4 +25,3 @@ Route.delete('/users/avatar', 'Users/Avatar.destroy').middleware('auth')
 //search
 
 Route.get('/users/search', 'Users/Search.index')
-Route.get('/users/search/:username', 'Users/Search.show')
