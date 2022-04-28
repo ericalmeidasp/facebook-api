@@ -7,6 +7,8 @@ import './comments'
 import './reactions'
 import './follows'
 import './profiles'
+import './messages'
+import './conversation'
 
 Route.get('/', async () => {
   return { hello: 'worldd' }
