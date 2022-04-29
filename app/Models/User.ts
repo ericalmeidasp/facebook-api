@@ -12,7 +12,7 @@ import {
   manyToMany,
   ManyToMany
 } from '@ioc:Adonis/Lucid/Orm'
-import { UserKey, File, Post, Comment } from 'App/Models'
+import { UserKey, File, Post, Comment, Conversation } from 'App/Models'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -54,6 +54,9 @@ export default class User extends BaseModel {
 
   @hasMany(() => Comment)
   public comments: HasMany<typeof Comment>
+
+  @hasMany(() => Conversation)
+  public conversation: HasMany<typeof Conversation>
 
   @hasOne(() => File, {
     foreignKey: 'ownerId',
