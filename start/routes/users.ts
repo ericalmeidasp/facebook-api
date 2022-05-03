@@ -2,6 +2,10 @@ import Route from '@ioc:Adonis/Core/Route'
 
 // registrar user
 
+Route.get('/user-register', async ({ view }) => {
+  return view.render('emails/verify-email')
+})
+
 Route.post('/users/register', 'Users/Register.store')
 Route.get('/users/register/:key', 'Users/Register.show')
 Route.put('/users/register', 'Users/Register.update')

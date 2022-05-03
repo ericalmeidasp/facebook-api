@@ -11,9 +11,10 @@ import './messages'
 import './conversation'
 
 Route.get('/', async () => {
-  return { hello: 'worldd' }
+  return { hello: 'world' }
 })
 
-Route.get('/user-register', async ({ view }) => {
-  return view.render('emails/verify-email')
-})
+Route.on('/test').render('test')
+
+Route.on('/chat').render('chat')
+
