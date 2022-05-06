@@ -19,7 +19,7 @@ export default class UserRegisterController {
 
       await user.related('keys').create({ key })
 
-      const link = `${redirectUrl.replace(/\/$/, '')}/${key}`
+      const link = `${redirectUrl.replace(/\/$/, '')}/register/${key}`
 
       // envio
 
