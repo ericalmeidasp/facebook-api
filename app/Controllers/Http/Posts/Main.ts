@@ -8,25 +8,31 @@ export default class PostsController {
   public async index({ request, auth }: HttpContextContract) {
     const { username } = request.qs()
 
-    // // const user = username ? await User.findByOrFail('username', username) : auth.user!
-    // if (!username) { 
-
-    //   const user = auth.user!
-
-    //   await user.load('following', (query) => {
-    //     query.preload('posts')
-    //   })
-
-    //         // await user.load('following', query => query.select('id'))
-    //   // const listPost = user.following.map(post => post.id)
-
-    //   // const posts = await Post.findMany([1,2])
-
-    //   return user.following
-    // }
-
     const user = username ? await User.findByOrFail('username', username) : auth.user!
 
+    if (!username) {
+      const user = auth.user!
+
+      await user.load('following', (query) => {
+        query.select()
+        query.preload('posts', (query) => {
+          query.preload('user')
+        })
+      })
+
+      const listPost = user.following.map((user) => user.posts)
+      
+
+      // await user.load('following', (query) => query.select('id'))
+      // const listPost = user.following.map((post) => post.id)
+
+      // const posts = await Post.findMany([1, 2])
+      // const mapSort1 = listPost.sort((a: any, b: any) => {
+      //   return b.id - a.id
+      // })
+
+      return listPost
+    }
 
     await user.load('posts', (query) => {
       query.orderBy('id', 'desc')
@@ -81,8 +87,6 @@ export default class PostsController {
         query.where('type', 'angry')
         query.as('angryCount')
       })
-
-      
     })
 
     return user.posts
