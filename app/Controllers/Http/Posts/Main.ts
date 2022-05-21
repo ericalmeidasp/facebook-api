@@ -3,6 +3,7 @@ import { StoreValidator, UpdateValidator } from 'App/Validators/Post/Main'
 import { Post, User } from 'App/Models'
 import fs from 'fs'
 import Application from '@ioc:Adonis/Core/Application'
+import { HasMany, LucidModel } from '@ioc:Adonis/Lucid/Orm'
 
 export default class PostsController {
   public async index({ request, auth }: HttpContextContract) {
@@ -10,30 +11,87 @@ export default class PostsController {
 
     const user = username ? await User.findByOrFail('username', username) : auth.user!
 
+    // se nao tem username, carrega a timeline principal, com os posts de quem o user segue
     if (!username) {
       const user = auth.user!
-
+      // carrega os posts com os users
       await user.load('following', (query) => {
-        query.select()
         query.preload('posts', (query) => {
-          query.preload('user')
+          query.select(['id', 'description', 'createdAt'])
+
+          query.preload('comments', (query) => {
+            query.preload('user', (query) => {
+              query.select(['id', 'name', 'username'])
+              query.preload('avatar')
+            })
+          })
+
+          query.preload('reactions', () => {
+            query.where('userId', auth.user!.id).first()
+          })
+
+          query.withCount('comments')
+
+          // counets reactions
+          // likeCount
+          query.withCount('reactions', (query) => {
+            query.where('type', 'like')
+            query.as('likeCount')
+          })
+
+          // hahaCount
+          query.withCount('reactions', (query) => {
+            query.where('type', 'haha')
+            query.as('hahaCount')
+          })
+
+          // sadCount
+          query.withCount('reactions', (query) => {
+            query.where('type', 'sad')
+            query.as('sadCount')
+          })
+
+          // loveCount
+          query.withCount('reactions', (query) => {
+            query.where('type', 'love')
+            query.as('loveCount')
+          })
+
+          // angryCount
+          query.withCount('reactions', (query) => {
+            query.where('type', 'angry')
+            query.as('angryCount')
+          })
+
+          query.preload('media')
+          query.preload('user', (query) => {
+            query.select(['id', 'name', 'username'])
+            query.preload('avatar')
+          })
         })
       })
 
-      const listPost = user.following.map((user) => user.posts)
-      
+      //Remove a Dupla Array da Requisição
 
-      // await user.load('following', (query) => query.select('id'))
-      // const listPost = user.following.map((post) => post.id)
+      const allposts = (doubleList: HasMany<typeof Post, LucidModel>[]) => {
+        let listingAllPosts: Post[] = []
+        doubleList.forEach((element: Post[]) => {
+          element.forEach((element) => listingAllPosts.push(element))
+        })
+        return listingAllPosts
+      }
 
-      // const posts = await Post.findMany([1, 2])
-      // const mapSort1 = listPost.sort((a: any, b: any) => {
-      //   return b.id - a.id
-      // })
+      const getUsersPosts = allposts(user.following.map((user) => user.posts))
 
-      return listPost
+      // ordena os posts
+      const orderPostsByRecently = getUsersPosts.sort((a, b) => {
+        return b.id - a.id
+      })
+
+      return orderPostsByRecently
     }
 
+    // se tem username, pega os posts do username
     await user.load('posts', (query) => {
       query.orderBy('id', 'desc')
 
