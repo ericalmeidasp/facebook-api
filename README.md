@@ -1,31 +1,32 @@
-# facebook-api - Backend
-$ Api do Clone do Facebook com funçóes de -> 
-$ registros (com envio de email e confirmação)
-$ usuarios (com avatares)
-$ postagens (com midias)
-$ comentários
-$ reações nos posts
+# API - Clone do Facebook - Rede social. 
+
+Esta é uma API de um "Clone" do Facebook. Aqui voce terá Usuários, com envios de email e confirmação de cadastro. Terá Posts, comentários, Reações. Também terá sistema de seguidores e seguidos.
 
 
-# backend
+## Instalação
 
-## Build Setup
-
-Install [Docker Compose](https://docs.docker.com/compose/install/).
+Primeiramente, rode um container com MySQL e com nossa base de dados.
 
 ```bash
-# Create container with MySQL
-$ docker-compose up -d
+  cd facebook-api
+  docker-compose up -d
+```
 
-# install dependencies
-$ npm install
+Depois, Instale facebook-api com npm
 
-# Create database structure
-$ node ace migration:run
+```bash
+    npm install
+```
 
-# server with changes watcher
-$ npm run dev
+Rode as Migrations:
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+
+```bash
+    node ace migration:run
+```
+
+E agora rode o servidor de desenvolvimento:
+
+```bash
+    npm run dev
+```
