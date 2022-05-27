@@ -25,8 +25,8 @@ export default class UserRegisterController {
 
       await Mail.send((message) => {
         message.to(email)
-        message.from('contato@fb.com', 'FacebookTest')
-        message.subject('New Account')
+        message.from('ericalmeida.sp@gmail.com', 'Éric Almeida - Register')
+        message.subject('Novo Cadastro')
         message.htmlView('emails/verify-email', { link })
       })
     })
