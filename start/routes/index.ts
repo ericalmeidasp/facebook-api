@@ -10,9 +10,7 @@ import './profiles'
 import './messages'
 import './conversation'
 
-Route.get('/', async () => {
-  return { welcome: 'Bemvindo a APIRest de uma bela Rede Social, acesse meu github para mais informações: https://github.com/ericalmeidasp/facebook-api' }
-})
+Route.on('/').render('welcome')
 
 Route.on('/test').render('test')
 
