@@ -13,3 +13,6 @@ Route.resource('/posts', 'Posts/Main')
   })
 
 Route.post('/posts/:id/media', 'Posts/Media.store').middleware('auth')
+
+
+Route.get('/posts/:postid', 'Posts/Main.show').middleware('auth')

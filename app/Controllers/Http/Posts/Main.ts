@@ -150,6 +150,48 @@ export default class PostsController {
     return user.posts
   }
 
+  public async show({ params }: HttpContextContract) {
+    const { postid } = await params
+
+    const post = await Post.query()
+      .where({ id: postid })
+      .preload('user', (query) => {
+        query.select(['id', 'name', 'username'])
+        query.preload('avatar')
+      })
+      .preload('media')
+      .preload('comments', (query) =>
+        query.preload('user', (query) => {
+          query.select(['id', 'name', 'username'])
+          query.preload('avatar')
+        })
+      )
+      .withCount('comments')
+      .preload('reactions')
+      .withCount('reactions', (query) => {
+        query.where('type', 'like')
+        query.as('likeCount')
+      })
+      .withCount('reactions', (query) => {
+        query.where('type', 'haha')
+        query.as('hahaCount')
+      })
+      .withCount('reactions', (query) => {
+        query.where('type', 'sad')
+        query.as('sadCount')
+      })
+      .withCount('reactions', (query) => {
+        query.where('type', 'love')
+        query.as('loveCount')
+      })
+      .withCount('reactions', (query) => {
+        query.where('type', 'angry')
+        query.as('angryCount')
+      })
+
+    return post
+  }
+
   public async store({ request, auth }: HttpContextContract) {
     const data = await request.validate(StoreValidator)
     const post = await auth.user!.related('posts').create(data)
