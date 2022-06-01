@@ -7,6 +7,9 @@ export default class CommentsController {
     const data = await request.validate(StoreValidator)
 
     const comment = await auth.user!.related('comments').create(data)
+    await comment.load('user', (query) => {
+      query.preload('avatar')
+    })
 
     return comment
   }
