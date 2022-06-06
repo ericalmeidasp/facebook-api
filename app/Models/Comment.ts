@@ -12,7 +12,7 @@ export default class Comment extends BaseModel {
   @column({ serializeAs: null })
   public userId: number
 
-  @column({ serializeAs: null })
+  @column()
   public postId: number
 
   @column.dateTime({ autoCreate: true })
