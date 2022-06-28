@@ -5,7 +5,7 @@ Esta é uma API de um "Clone" do Facebook. Aqui voce terá Usuários, com envios
 
 ## Instalação
 
-Primeiramente, rode um container com MySQL e com nossa base de dados.
+Primeiramente, rode um container com MySQL e com nossa base de dados. .
 
 ```bash
   cd facebook-api
